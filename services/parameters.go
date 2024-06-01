@@ -68,11 +68,8 @@ func SendProducts(records [][]string) []string {
 
 			token := getToken()
 			url := ReadCredentials(CREDENTIALS, "product")
-			response, err := gateway.Send(payload, url, token)
+			response := gateway.Send(payload, url, token)
 
-			if err != nil {
-				panic(err.Error())
-			}
 			fmt.Println("____________________________________________________________________________________________________________________________________________________________")
 			messages[i] = response
 		}
