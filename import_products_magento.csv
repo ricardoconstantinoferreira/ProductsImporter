@@ -1,0 +1,3 @@
+sku,name,attribute_set_id,price,status,visibility,type_id,weight,category_id,qty,is_in_stock
+90888,Oculos de sol,4,89.00,1,4,simple,0.8,"1,3,4",908,true
+971612,IPAD,4,9088,1,4,simple,0.5,"1,3,5",10822,true
