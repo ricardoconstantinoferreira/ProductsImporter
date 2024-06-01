@@ -44,7 +44,7 @@ func SendProducts(records [][]string) []string {
 	for i := 0; i < len(records); i++ {
 		if i == 1 {
 			category_links := createCategoryLinks(records[i][8])
-			categorys := strings.Join(category_links, ",")
+			categorys := strings.Join(category_links, ",") + ","
 			params, _ := json.Marshal(map[string]string{
 				"sku":              records[i][0],
 				"name":             records[i][1],
@@ -73,8 +73,8 @@ func SendProducts(records [][]string) []string {
 			if err != nil {
 				panic(err.Error())
 			}
-
-			messages[i] = "Product Added Successfully!!! " + response
+			fmt.Println("____________________________________________________________________________________________________________________________________________________________")
+			messages[i] = response
 		}
 	}
 
