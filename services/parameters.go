@@ -42,27 +42,30 @@ func SendProducts(records [][]string) []string {
 	messages := make([]string, len(records))
 
 	for i := 0; i < len(records); i++ {
-		if i == 1 {
+		if i > 0 {
 			category_links := createCategoryLinks(records[i][8])
-			categorys := strings.Join(category_links, ",") + ","
-			params, _ := json.Marshal(map[string]string{
-				"sku":              records[i][0],
-				"name":             records[i][1],
-				"attribute_set_id": records[i][2],
-				"price":            records[i][3],
-				"visibility":       records[i][4],
-				"type_id":          records[i][5],
-				"weight":           records[i][6],
-				"extension_attributes": `{
-					"stock_item": {
-						"qty":         ` + records[i][9] + `,
-						"is_in_stock": ` + records[i][10] + `,
-					},
-					"category_links": [
-						` + categorys + `
-					],
-				}`,
-			})
+			categorys := strings.Join(category_links, ",")
+			params := []byte(`{
+					"product": {
+						"sku": "` + records[i][0] + `",
+						"name": "` + records[i][1] + `",
+						"attribute_set_id": "` + records[i][2] + `",
+						"price": "` + records[i][3] + `",
+						"status": "` + records[i][4] + `",
+						"visibility": "` + records[i][5] + `",
+						"type_id": "` + records[i][6] + `",
+						"weight": "` + records[i][7] + `",
+						"extension_attributes": {
+							"stock_item": {
+								"qty":         "` + records[i][9] + `",
+								"is_in_stock": "` + records[i][10] + `"
+							},
+							"category_links": [
+								` + categorys + `
+							]	
+						}
+					}
+				}`)
 
 			payload := bytes.NewBuffer(params)
 

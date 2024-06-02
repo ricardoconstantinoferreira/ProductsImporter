@@ -38,21 +38,26 @@ func Send(payload io.Reader, url string, token string) string {
 
 	bearer := "Bearer " + token
 
+	client := &http.Client{}
 	req, err := http.NewRequest("POST", url, payload)
 
+	if err != nil {
+		panic(err.Error())
+	}
+
+	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", bearer)
-	req.Header.Add("Accept", "application/json")
 
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(req)
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return response.Status
+	return string(body)
 }
